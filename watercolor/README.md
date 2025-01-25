@@ -2,6 +2,7 @@
 
 ## Screenshot
 <img src="media/shadertoy.png" width="512"></img>  
+
 <video src="media/shadertoy.mp4" width="512"></video>
 
 ## Before the run
