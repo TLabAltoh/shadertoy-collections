@@ -6,7 +6,7 @@ My shadertoy collection
 
 <img src="watercolor/media/shadertoy.png" width="512"></img>  
 
-code: [```/watercolor```]()
+code: [```/watercolor```](https://github.com/TLabAltoh/shadertoy-collections/tree/master/watercolor)
 
 ## Getting Started
 - Install [```ShaderToy```](https://marketplace.visualstudio.com/items?itemName=stevensona.shader-toy) in the [```VS Code```](https://azure.microsoft.com/en-us/products/visual-studio-code)
