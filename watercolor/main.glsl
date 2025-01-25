@@ -104,11 +104,16 @@ float perlin_noise(vec2 position, float frequency, float detail, float roughness
 }
 
 /****************************************************
+ * Random
+ ****************************************************/
+
+float random_hash_01( float n ) { return fract(sin(n)*43758.5453); }
+
+/****************************************************
  * Voronoi Texture
  ****************************************************/
 
-float voronoi_hash1( float n ) { return fract(sin(n)*43758.5453); }
-vec2  voronoi_hash2( vec2  p ) { p = vec2( dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)) ); return fract(sin(p)*43758.5453); }
+vec2  voronoi_hash( vec2  p ) { p = vec2( dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)) ); return fract(sin(p)*43758.5453); }
 
 // The parameter w controls the smoothness
 vec4 voronoi( in vec2 x, float w )
@@ -121,7 +126,7 @@ vec4 voronoi( in vec2 x, float w )
     for( int i=-2; i<=2; i++ )
     {
         vec2 g = vec2( float(i),float(j) );
-        vec2 o = voronoi_hash2( n + g );
+        vec2 o = voronoi_hash( n + g );
 		
 		// animate
         //o = 0.5 + 0.5*sin( iTime*6.2831*o );
@@ -130,7 +135,8 @@ vec4 voronoi( in vec2 x, float w )
 		float d = length(g - f + o);
 		
         // cell color
-        float random = voronoi_hash1(dot(n+g,vec2(1,100)));
+        uint seed = uint(1e+6 * random_hash_01(iTime / float(1e+6)));
+        float random = random_hash_01(float(seed) * (sin(n.x+g.x) + cos(n.y+g.y)));
         vec3 col = 0.5 + 0.5*vec3(random);
         // in linear space
         col = col*col;
@@ -154,7 +160,7 @@ vec4 voronoi( in vec2 x, float w )
 #define NOISE_LACUNARITY 1.5
 
 vec2 distort(vec2 pos, float strength) {
-    uint seed = uint(1e+6 * voronoi_hash1(iTime / float(1e+6)));
+    uint seed = uint(1e+6 * random_hash_01(iTime / float(1e+6)));
     strength *= 5e-2;
     float frequency = 5.0 * NOISE_FREQUENCY;
     float distort = perlin_noise(pos * NOISE_SCALE, frequency, NOISE_DETAIL, NOISE_ROUGHNESS, NOISE_LACUNARITY, seed);
@@ -172,9 +178,7 @@ vec2 distort(vec2 pos, float strength) {
 #define SAMPLES 200.0
 #endif
 
-#define BLUR_RADIUS 35.0
-
-#iChannel0 "file://image.jpg"
+#define BLUR_RADIUS 50.0
 
 vec4 blur_box(sampler2D tex, vec2 texel, vec2 uv, vec2 rect)
 {
@@ -205,39 +209,39 @@ vec3 toon_effect(vec3 c, int f, int m)
  * MainImage
  ****************************************************/
 
+#iChannel0 "file://image.jpg"
+
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
+    float weight;
+
+    // tex sampling
     vec2 texel = 1. / iResolution.xy;
     vec2 coord = fragCoord*texel;
     vec2 uv = fract(coord);
- 
-     vec2 pos = fragCoord / iResolution.y;
- 
+    
+    // noise sampling
+    vec2 pos = fragCoord / iResolution.y; 
     vec4 v = voronoi(distort(pos * VORONOI_SCALE, DISTORT_STRENGTH), VORONOI_SMOOTH);
-
-    vec2 distort = (v.yz - 0.5) * 0.05;
     
     vec3 col = texture(iChannel0,uv).xyz;
    
-    float weight;
-   
+    // mix blur
     float radius = BLUR_RADIUS * v.y;
     vec3 blur = blur_box(iChannel0, texel, uv, vec2(radius, radius)).xyz;
-    
-    weight = (1.0 - v.y) * 0.15;
+    weight = (1.0 - v.y) * 0.25;
     vec3 layer0 = weight * col + (1.0 - weight) * blur;
     
-    weight = (1.0 - v.y) * 0.25;
-    vec3 layer1 = toon_effect(layer0, 50, 256);
+    // mix toon
+    vec3 layer1 = toon_effect(layer0, 125, 256);
+    weight = (1.0 - v.y) * 0.15;
     col = weight * layer1 + (1.0 - weight) * layer0;
-    
-    //col = blur.xyz;
     col *= (1.0 - v.y * 0.1);
-    //col *= v.y;
     
 	fragColor = vec4(col.xyz, 1.0);
 
     // debug
+    //col = blur.xyz;
     //col = sqrt(v.yzw);
     //col = vec3(v.w);
 	
