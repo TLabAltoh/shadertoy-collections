@@ -3,7 +3,7 @@
 ## Screenshot
 <img src="media/shadertoy.png" width="512"></img>  
 
-<video src="https://github.com/user-attachments/assets/dc4f057e-1447-4f87-9adf-a2cf6a83d46d" width="512"></video>
+<video src="https://github.com/user-attachments/assets/c4ad4dc8-dc61-42be-95b1-f2c38b35d468" width="512"></video>
 
 ## Before the run
 Prepare any image in this folder with the file name "image.jpg"
