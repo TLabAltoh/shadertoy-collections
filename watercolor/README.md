@@ -5,6 +5,8 @@
 
 <video src="https://github.com/user-attachments/assets/c4ad4dc8-dc61-42be-95b1-f2c38b35d468" width="512"></video>
 
+<video src="https://github.com/user-attachments/assets/cbe9aa31-ae89-4966-9502-a902446c4194" width="512"></video>
+
 ## Before the run
 Prepare any image in this folder with the file name "image.jpg"
 
