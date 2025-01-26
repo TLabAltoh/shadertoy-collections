@@ -151,7 +151,7 @@ vec4 voronoi( in vec2 x, float w )
 }
 
 #define DISTORT_STRENGTH 7.0
-#define VORONOI_SCALE 15.0
+#define VORONOI_SCALE 30.0
 #define VORONOI_SMOOTH 1.0
 #define NOISE_SCALE 0.05
 #define NOISE_FREQUENCY 5.0
@@ -210,6 +210,7 @@ vec3 toon_effect(vec3 c, int f, int m)
  ****************************************************/
 
 #iChannel0 "file://image.jpg"
+//#iChannel0 "file://images/image.2.jpg"
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
