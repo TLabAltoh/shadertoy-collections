@@ -1,4 +1,4 @@
-# Paint Effect
+# Painting Effects
 
 ## Screenshot
 <img src="media/shadertoy.png" width="512"></img>  
