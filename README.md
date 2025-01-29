@@ -2,11 +2,11 @@
 
 My shadertoy collection
 
-## WaterColor
+## Paint Effect
 
-<img src="watercolor/media/shadertoy.png" width="512"></img>  
+<img src="paint-effect/media/shadertoy.png" width="512"></img>  
 
-code: [```/watercolor```](https://github.com/TLabAltoh/shadertoy-collections/tree/master/watercolor)
+code: [```/paint-effect```](https://github.com/TLabAltoh/shadertoy-collections/tree/master/paint-effect)
 
 ## Getting Started
 - Install [```ShaderToy```](https://marketplace.visualstudio.com/items?itemName=stevensona.shader-toy) in the [```VS Code```](https://azure.microsoft.com/en-us/products/visual-studio-code)

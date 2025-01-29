@@ -1,4 +1,4 @@
-# WaterColor
+# Paint Effect
 
 ## Screenshot
 <img src="media/shadertoy.png" width="512"></img>  
